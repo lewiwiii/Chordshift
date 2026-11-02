@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "fast-xml-parser": "^4.0.12",
-    "node-sass": "^8.0.0",
+    "sass": "^1.70.0",
     "tonal": "^4.8.0",
     "uuid": "^9.0.0"
   },
@@ -93,9 +93,9 @@
     "exclude": []
   },
   "scripts": {
+    "build": "rollup -c demo/rollup.config.js",
     "lint": "eslint .",
-    "make-demo": "rollup -c demo/rollup.config.js",
-    "make-styles": "node-sass --output-style compressed demo/styles/styles.scss demo/styles.css",
+    "make-demo": "npm run build",
     "make-types": "rm -fr types/ && mkdir types && tsc --project .tsconfig.json",
     "report": "nyc report --reporter=html",
     "test": "NODE_ENV=test nyc ava --serial",

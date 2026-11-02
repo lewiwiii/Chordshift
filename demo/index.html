@@ -1,62 +1,54 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="theme-color" content="#222222">
-<meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Convert Between Ripchord & Scaler, Convert Scaler to Ripchord, Convert Ripchord to Scaler">
-<meta property="og:description" content="Convert Between Ripchord & Scaler, Convert Scaler to Ripchord, Convert Ripchord to Scaler">
-<meta property="twitter:description" content="Convert Between Ripchord & Scaler, Convert Scaler to Ripchord, Convert Ripchord to Scaler">
-<meta property="og:title" content="Orchard Splicer - Convert Between Ripchord & Scaler">
-<meta property="twitter:title" content="Orchard Splicer - Convert Between Ripchord & Scaler">
-<meta property="og:site_name" content="Orchard Splicer - Convert Between Ripchord & Scaler">
-<meta property="og:locale" content="en_US">
-<meta name="twitter:site" content="@superfamicom">
-<meta name="twitter:creator" content="@superfamicom">
-<meta property="article:publisher" content="https://preset.world">
-<meta property="og:url" content="https://preset.world/convert-ripchord-scaler">
-<link href="styles.css" rel="stylesheet">
-<title>Orchard Splicer 🍎 ➜ 🍊 - Convert Between Ripchord & Scaler, Convert Scaler to Ripchord, Convert Ripchord to Scaler</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#101112" />
+  <meta name="description" content="A private, browser-based converter for Ripchord and Scaler chord presets. Convert files individually or in batches." />
+  <meta property="og:title" content="Chordshift — Ripchord & Scaler converter" />
+  <meta property="og:description" content="Convert Ripchord and Scaler chord presets right in your browser. Batch ready, private by design." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Chordshift — Ripchord &amp; Scaler converter</title>
 </head>
 <body>
-  <header class="header">
-    <h1 class="title">
-      <a href="/">Orchard Splicer 🍎 ➜ 🍊 - Convert Between Ripchord & Scaler Presets</a>
-    </h1>
-    <ul class="nav">
-      <li><a class="text-tertiary" href="/">Back to Preset World</a></li>
-    </ul>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Chordshift home"><span class="brand-mark">c</span><span>chordshift</span></a>
+    <div class="topbar-right"><span class="privacy"><i></i> Files stay on your device</span><a class="github-link" href="https://github.com/MatthewCallis/convert-ripchord-scaler" target="_blank" rel="noreferrer">About <span aria-hidden="true">↗</span></a></div>
   </header>
-  <div class="container">
-    <div class="grid">
-      <div class="item">
-        <p>Convert between <a href="https://www.pluginboutique.com/product/3-Studio-Tools/93-Music-Theory-Tools/6439-Scaler-2">Plugin Boutique's Scaler 2</a> and <a href="https://trackbout.com/ripchord">Trackbout's Ripchord</a> chord pack formats.</p>
-        <p>Scaler lacks names for chords, so <a href="https://github.com/tonaljs/tonal">tonal</a> is used to determine chord names, and falls back to the keys used.</p>
-        <p>Scaler also lacks a trigger, so the trigger is set to auto incriment starting from C3 (48).</p>
-        <p>To convert files, choose them using the selector below and then click the Download link from the genereated output.</p>
-        <p>Stuck? <a href="https://github.com/MatthewCallis">Reach out to me!</a></p>
-        <br/>
-        <div class="file">
-          <label for="preset-file">
-            Choose preset files to convert:
-            <input type="file" id="preset-file" name="preset-file" multiple />
-          </label>
-        </div>
+
+  <main class="shell">
+    <section class="intro">
+      <div class="eyebrow"><span class="eyebrow-line"></span> PRESET CONVERTER <span class="eyebrow-line"></span></div>
+      <h1>Make your chords<br /><span>move between worlds.</span></h1>
+      <p>Convert chord presets between Ripchord and Scaler. Drop in one file or a whole folder’s worth.</p>
+    </section>
+
+    <section class="workbench" aria-label="Preset converter">
+      <div class="workbench-head">
+        <div class="format-flow"><div class="format-chip"><span class="format-icon rip-icon">R</span><span>Ripchord</span><small>.rpc</small></div><span class="flow-arrow" aria-hidden="true">⇄</span><div class="format-chip"><span class="format-icon scaler-icon">S</span><span>Scaler</span><small>.xml</small></div></div>
+        <button class="settings-toggle" id="settings-toggle" aria-expanded="false" aria-controls="settings-panel"><span class="sliders-icon">☷</span> Settings <span class="chevron">⌄</span></button>
       </div>
-    </div>
-  </div>
-  <footer class="footer" role="contentinfo">
-    ©2022 <a href="/" title="Preset World">preset.world</a> | <a href="https://github.com/uttori" rel="external" title="Powered by Uttori">🔌 by Uttori</a> | <a href="https://twitter.com/superfamicom" rel="external" title="Help &amp; Support">Help &amp; Support</a>
-  </footer>
-</body>
-<script src="convert-ripchord-scaler.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EVC34K9QTF"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-EVC34K9QTF');
-</script>
+      <div class="settings-panel" id="settings-panel" hidden>
+        <label class="setting"><span><strong>First trigger note</strong><small>Used when converting Scaler files to Ripchord</small></span><span class="number-field"><input id="start-value" type="number" min="0" max="127" value="48" aria-label="First trigger MIDI note" /><span>MIDI</span></span></label>
+        <label class="setting"><span><strong>Note spelling</strong><small>Choose how detected chord notes are written</small></span><select id="note-spelling"><option value="true">Sharps (C♯)</option><option value="false">Flats (D♭)</option></select></label>
+      </div>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose or drop preset files">
+        <input id="file-input" type="file" accept=".rpc,.xml,text/xml,application/xml" multiple hidden />
+        <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h2>Drop your preset files here</h2><p>or <button type="button" class="browse-button" id="browse-button">browse files</button> on your device</p>
+        <span class="file-hint">RIPCHORD .RPC <b>·</b> SCALER .XML <b>·</b> MULTIPLE FILES</span>
+      </div>
+      <section class="queue" id="queue" hidden aria-live="polite">
+        <div class="queue-heading"><div><span class="section-kicker">YOUR FILES</span><span class="file-count" id="file-count"></span></div><button class="text-button" id="clear-button">Clear all</button></div>
+        <div class="file-list" id="file-list"></div>
+        <div class="queue-actions"><span class="queue-note" id="queue-note">Converted locally in your browser</span><button class="download-all" id="download-all" disabled><span>↓</span> Download all <span class="zip-label">.ZIP</span></button></div>
+      </section>
+    </section>
+
+    <div class="trust-row"><span><b>01</b> Drop files</span><span class="trust-divider"></span><span><b>02</b> Convert instantly</span><span class="trust-divider"></span><span><b>03</b> Download your presets</span></div>
+    <footer><span>Made for music makers.</span><span class="footer-lock">⌑ &nbsp;No uploads. No accounts. Just conversion.</span></footer>
+  </main>
+  <script defer src="convert-ripchord-scaler.js"></script>
 </body>
 </html>

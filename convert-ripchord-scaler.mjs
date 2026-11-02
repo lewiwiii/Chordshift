@@ -75,6 +75,8 @@ export const parser = new XMLParser({
   allowBooleanAttributes: true,
 });
 
+const asArray = (value) => (Array.isArray(value) ? value : value ? [value] : []);
+
 /**
  * @param data
  * @param root0
@@ -83,10 +85,7 @@ export const parser = new XMLParser({
 export function parseText(data, { sharps = true } = {}) {
   // Validate
   const result = XMLValidator.validate(data);
-  if (result?.err) {
-    console.log(`XML is invalid becuause of - ${result.err.msg}`, result);
-    return;
-  }
+  if (result?.err) return;
 
   const json = parser.parse(data);
   if (json.ripchord) {
@@ -112,16 +111,14 @@ export function parseRipchord(json, { sharps = true } = {}) {
   };
 
   // Missing the container node.
-  if (!json?.ripchord?.preset?.input) {
-    console.log('Not a Ripchord file.');
-    return data;
-  }
+  if (!json?.ripchord?.preset?.input) return data;
 
   // Metadata
   data.uuid = uuidv4();
 
   // Read the keys from the data and detect the chords
-  for (const { chord, '@_note': trigger } of json.ripchord.preset.input) {
+  for (const { chord, '@_note': trigger } of asArray(json.ripchord.preset.input)) {
+    if (!chord?.['@_notes']) continue;
     const notes = chord['@_notes'].split(';').map((value) => ({ value, note: Midi.midiToNoteName(value, { sharps }) }));
     // console.log('notes', notes);
     const name = Chord.detect(notes.map(({ note }) => note));
@@ -156,18 +153,16 @@ export function parseScaler(json, { sharps = true } = {}) {
   };
 
   // Missing the container node.
-  if (!json.CHORDSET?.CHORD) {
-    console.log('Not a Scaler file.');
-    return data;
-  }
+  if (!json.CHORDSET?.CHORD) return data;
 
   // Set Metadata
   data.uuid = json.CHORDSET['@_uuid'];
   data.version = json.CHORDSET['@_version'];
 
   // Read the keys from the data and detect the chords
-  for (const chord of json.CHORDSET.CHORD) {
-    const notes = chord.NOTE.map(({ '@_MIDI': value }) => ({ value, note: Midi.midiToNoteName(value, { sharps }) }));
+  for (const chord of asArray(json.CHORDSET.CHORD)) {
+    const notes = asArray(chord.NOTE).map(({ '@_MIDI': value }) => ({ value, note: Midi.midiToNoteName(value, { sharps }) }));
+    if (!notes.length) continue;
     // console.log('notes', notes.map(({ value }) => value));
     const name = Chord.detect(notes.map(({ note }) => note));
     // console.log('name', name);
